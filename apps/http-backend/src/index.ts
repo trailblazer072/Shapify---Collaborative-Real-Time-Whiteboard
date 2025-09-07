@@ -193,6 +193,10 @@ app.get("/checkUser", middleware, async (req, res) => {
   })
 });
 
-app.listen("3001", () => {
-  console.log("HTTP backend listening on port 3001");
-});
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3001;
+  console.log(PORT);
+  app.listen(PORT, () => {
+    console.log(`Server is listening on ${PORT}`)
+  })
+}

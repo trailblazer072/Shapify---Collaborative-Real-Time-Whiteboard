@@ -3,7 +3,17 @@ import { WebSocket, WebSocketServer } from "ws";
 import { JWT_SECRET } from "@repo/backend-common/config";
 import { prismaClient } from "@repo/db/index";
 
-const wss = new WebSocketServer({ port: 8080 });
+let wss: WebSocketServer;
+
+const PORT = Number(process.env.PORT) || 3000;
+
+if (process.env.NODE_ENV !== 'production') {
+  console.log(PORT);
+  wss = new WebSocketServer({ port: PORT });
+} else {
+  wss = new WebSocketServer({ port: PORT });
+}
+
 
 interface User {
   ws: WebSocket;
