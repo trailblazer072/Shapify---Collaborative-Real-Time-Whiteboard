@@ -118,4 +118,4 @@ pnpm build
 ---
 
 ## 🧑‍💻 Authors
-- [Your Name](https://github.com/your-username)  
+- Adarsh Raghuwanshi
