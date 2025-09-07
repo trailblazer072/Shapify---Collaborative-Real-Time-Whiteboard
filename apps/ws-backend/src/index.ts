@@ -5,7 +5,7 @@ import { prismaClient } from "@repo/db/index";
 
 let wss: WebSocketServer;
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 8080;
 
 if (process.env.NODE_ENV !== 'production') {
   console.log(PORT);
