@@ -1,135 +1,121 @@
-# Turborepo starter
+# Shapify – Collaborative Real-Time Whiteboard
 
-This Turborepo starter is maintained by the Turborepo core team.
+Shapify is a **full-stack collaborative whiteboard** where users can draw, edit, and delete shapes in real-time.  
+It’s built with **Next.js, TypeScript, WebSockets, Prisma, and PostgreSQL**, designed for scalability and real-time collaboration.
 
-## Using this example
+---
 
-Run the following command:
+## ✨ Features
+- 🎨 **Collaborative Whiteboard** – draw rectangles, circles, and lines in real-time.  
+- 🔄 **WebSocket Sync** – shapes update instantly across all connected users.  
+- 🧹 **Eraser Tool** – delete shapes directly from the canvas.  
+- 💬 **Room-based Chats** – users can join rooms and exchange messages tied to drawings.  
+- 🔒 **JWT Authentication** – secure access to rooms and persistent sessions.  
+- 🗄️ **Persistent Storage** – Prisma ORM with PostgreSQL for saving shapes and chat history.  
+- ⚡ **Scalable Architecture** – supports future features like infinite canvas, user cursors, and advanced tools.  
 
-```sh
-npx create-turbo@latest
+---
+
+## 🛠️ Tech Stack
+- **Frontend**: Next.js 14, TypeScript, React, TailwindCSS  
+- **Backend**: Node.js, Express, WebSockets (`ws`)  
+- **Database**: PostgreSQL + Prisma ORM  
+- **Auth**: JWT-based authentication  
+- **Deployment**: Vercel (Frontend) + Vercel/Node backend  
+
+---
+
+## 📂 Project Structure
+```
+apps/
+  exceldraw-frontend   → Next.js frontend (canvas UI, authentication)
+  http-backend         → Express + WebSocket backend (chat + shape sync)
+  ws-backend           → Experimental WebSocket services
+packages/
+  backend-common       → Shared backend config (JWT secret, utils)
+  db                   → Prisma ORM + database client
+  typescript-config    → Shared TS config
+  common               → Shared types & constants
+  ui                   → Shared UI components
 ```
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
+## 🚀 Getting Started
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+### 1. Clone the repo
+```bash
+git clone https://github.com/<your-username>/shapify.git
+cd shapify
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+### 2. Install dependencies
+Using **pnpm** (recommended):
+```bash
+pnpm install
 ```
 
-### Develop
+### 3. Setup Environment Variables
+Create `.env` files in both **frontend** and **backend** apps.
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+**apps/http-backend/.env**
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/shapify"
+JWT_SECRET="your-secret-key"
+PORT=8080
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+**apps/exceldraw-frontend/.env**
+```env
+NEXT_PUBLIC_BACKEND_URL="http://localhost:8080"
 ```
 
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+### 4. Migrate the database
+```bash
+cd packages/db
+pnpm prisma migrate dev
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### 5. Run the development servers
+```bash
+# Run backend
+cd apps/http-backend
+pnpm dev
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+# Run frontend
+cd apps/exceldraw-frontend
+pnpm dev
 ```
 
-## Useful Links
+Frontend runs on [http://localhost:3000](http://localhost:3000)  
+Backend runs on [http://localhost:8080](http://localhost:8080)
 
-Learn more about the power of Turborepo:
+---
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+## 📦 Build & Deployment
+
+### Build all packages
+```bash
+pnpm build
+```
+
+### Deploy
+- **Frontend**: Deploy `apps/exceldraw-frontend` to **Vercel**.  
+- **Backend**: Deploy `apps/http-backend` to **Vercel Functions** or any Node hosting (Railway, Render, AWS).  
+
+⚠️ Ensure you build `@repo/backend-common` and `@repo/db` before deploying, or import from `dist/` instead of `src/`.
+
+---
+
+## 📖 Example Resume Entry
+> **Shapify – Collaborative Real-Time Whiteboard**  
+> • Built a full-stack collaborative whiteboard application supporting real-time drawing, editing, and deletion with WebSocket-based synchronization.  
+> • Developed backend WebSocket server with secure JWT authentication and Prisma ORM for persistent shape storage in PostgreSQL.  
+> • Optimized frontend rendering by efficiently redrawing shapes on canvas using TypeScript, Next.js, and React hooks.  
+> • Designed scalable architecture enabling future extensions like infinite canvas, user cursors, and advanced drawing tools.  
+> • **Tech Stack**: Next.js, TypeScript, WebSockets, Prisma ORM, PostgreSQL.  
+
+---
+
+## 🧑‍💻 Authors
+- [Your Name](https://github.com/your-username)  
