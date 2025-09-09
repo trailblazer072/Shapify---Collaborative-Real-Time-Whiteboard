@@ -15,7 +15,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+// your routes here
+app.get("/api/health", (_, res) => res.json({ status: "ok" }));
 app.post("/signup", async (req, res) => {
   const parsedInput = CreateUserSchema.safeParse(req.body);
 
