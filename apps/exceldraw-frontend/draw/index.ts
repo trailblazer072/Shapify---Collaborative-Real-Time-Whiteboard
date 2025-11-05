@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HTTP_BACKEND } from "../config";
+
 import { Tool } from "./Toolbar";
 
 export type Shape =
@@ -50,7 +50,7 @@ export function initDraw(
   onStartTextEdit: (x: number, y: number) => void
 ) {
   let existingShapes: Shape[] = [];
-
+  
   // --- helpers
   const addShape = (shape: Shape) => {
     existingShapes.push(shape);
@@ -400,6 +400,7 @@ function clearCanvas(
 }
 
 async function getExistingShapes(roomId: number): Promise<Shape[]> {
+  const HTTP_BACKEND = process.env.NEXT_PUBLIC_HTTP_BACKEND as string;
   try {
     const res = await axios.get(`${HTTP_BACKEND}/chats/${roomId}`, {
       headers: { Authorization: localStorage.getItem("token") },
