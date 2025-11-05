@@ -1,11 +1,12 @@
 "use client"
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { WS_URL } from "../config";
+
 import { Canvas } from "./Canvas";
 import axios from "axios";
 
 export function RoomCanvas({ roomId }: { roomId: number }) {
+  const WS_URL = process.env.NEXT_PUBLIC_WS_URL as string;
   const socketRef = useRef<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
     const url = process.env.NEXT_PUBLIC_HTTP_BACKEND as string;
