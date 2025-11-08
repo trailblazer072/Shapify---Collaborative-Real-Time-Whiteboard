@@ -22,9 +22,26 @@ jobs:
           chmod 600 private_key.pem
           
           ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@13.200.219.165 << 'EOF'
-            cd Shapify---Collaborative-Real-Time-Whiteboard/
-            git pull
-            pnpm install
+            cd Shapify---Collaborative-Real-Time-Whiteboard
+
+            echo "🔄 Pulling latest code..."
+            git pull origin main
+
+            echo "📦 Installing dependencies..."
+            pnpm install --frozen-lockfile
+
+            echo "🏗️ Building backend..."
+            cd apps/http-backend
             pnpm run build
+            cd ../../
+
+            echo "🎨 Building frontend..."
+            cd apps/exceldraw-frontend
+            pnpm run build
+            cd ../../
+
+            echo "🚀 Restarting PM2 processes..."
             pm2 restart all --update-env
+
+            echo "✅ Deployment complete!"
           EOF
