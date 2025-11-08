@@ -11,7 +11,7 @@ import axios from "axios";
 
 export function AuthPage({ isSignin }: { isSignin: boolean }) {
   const url = process.env.NEXT_PUBLIC_HTTP_BACKEND as string;
-
+  console.log(url);
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
